@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: marketplace_redis_db
+    volumes:
+      - database:/data/redis
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    networks:
+      - marketplace-network
+    restart: always
+
+  mysql:
+    image: mysql:5.7
+    container_name: marketplace_mysql_db
+    volumes:
+      - database:/data/mysql
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    environment:
+      - MYSQL_DATABASE=marketplace
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=Vanhieu512
+      - MYSQL_ROOT_PASSWORD=Vanhieu512
+    networks:
+      - marketplace-network
+    restart: always
+
+networks:
+  marketplace-network:
+    name: marketplace-network
+    driver: bridge
+
+volumes:
+  database:
